@@ -1,0 +1,135 @@
+/* Basic styling for the DataTalk MVP */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    grid-template-rows: auto 1fr;
+    gap: 20px;
+    height: 90vh;
+}
+
+header {
+    grid-column: 1 / -1;
+}
+
+h1 {
+    color: #005a9e;
+}
+
+.chat-window,
+.results-window {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-window {
+    height: 100%;
+}
+
+#chat-history {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    border-radius: 18px;
+    max-width: 80%;
+}
+
+.bot {
+    background-color: #e9e9eb;
+    align-self: flex-start;
+}
+
+.user {
+    background-color: #007bff;
+    color: white;
+    align-self: flex-end;
+}
+
+.chat-input {
+    display: flex;
+}
+
+#user-input {
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 10px 15px;
+}
+
+#send-btn {
+    border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+#results-container {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+#data-table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#data-table-container th,
+#data-table-container td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+#data-table-container th {
+    background-color: #f2f2f2;
+}
+
+.loading-indicator {
+    text-align: center;
+    padding: 20px;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 10px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.hidden {
+    display: none;
+}

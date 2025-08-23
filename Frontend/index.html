@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataTalk - Conversational BI</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>DataTalk</h1>
+            <p>Ask a question about your sales data in plain English.</p>
+        </header>
+
+        <div class="chat-window">
+            <div id="chat-history">
+                <div class="message bot">
+                    <p>Hello! What would you like to know about the sales data?</p>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="e.g., What were the total sales for the North region?">
+                <button id="send-btn">Ask</button>
+            </div>
+        </div>
+
+        <div class="results-window">
+            <h2>Insights</h2>
+            <div id="results-container">
+                <div id="summary-section">
+                    <h3>Summary</h3>
+                    <p id="summary-text">Your summary will appear here...</p>
+                </div>
+                <div id="data-section">
+                    <h3>Raw Data</h3>
+                    <div id="data-table-container">Your data table will appear here...</div>
+                </div>
+            </div>
+            <div id="loading-indicator" class="hidden">
+                <div class="spinner"></div>
+                <p>Crafting your query...</p>
+            </div>
+        </div>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+
+</html>
