@@ -1,3 +1,4 @@
+// frontend/script.js
 document.addEventListener('DOMContentLoaded', () => {
     const userInput = document.getElementById('user-input');
     const sendBtn = document.getElementById('send-btn');
@@ -29,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ question: question })
             });
-
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -37,10 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
 
             // Update summary
-            summaryText.textContent = result.summary;
+            summaryText.textContent = result.summary || 'No summary available.';
 
-            // Update data table
-            dataTableContainer.innerHTML = createTableFromData(result.data_result);
+            // Update data table from structured JSON array
+            dataTableContainer.innerHTML = createTableFromJsonRows(result.data_result);
 
         } catch (error) {
             summaryText.textContent = `An error occurred: ${error.message}`;
@@ -52,31 +52,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    function createTableFromData(data) {
-        // This is a simplistic parser. A real app would need a more robust one.
+    // Expect data_result to be an array of arrays (rows)
+    function createTableFromJsonRows(rows) {
         try {
-            // LangChain often returns a string representation of a list of tuples.
-            const rows = JSON.parse(data.replace(/'/g, '"'));
-            if (!Array.isArray(rows) || rows.length === 0) return '<p>No data returned.</p>';
+            if (!Array.isArray(rows) || rows.length === 0) {
+                return '<p>No data returned.</p>';
+            }
 
-            // This is a huge assumption about the data structure.
-            // A better approach would be to get headers from the DB schema.
-            // For the MVP, we assume the structure is consistent.
             let table = '<table>';
-            // Note: We don't have headers here. A real app would need them.
-            // We'll just display the rows.
             rows.forEach(row => {
                 table += '<tr>';
-                row.forEach(cell => {
-                    table += `<td>${cell}</td>`;
-                });
+                if (Array.isArray(row)) {
+                    row.forEach(cell => {
+                        table += `<td>${escapeHtml(String(cell))}</td>`;
+                    });
+                } else if (row && typeof row === 'object') {
+                    Object.values(row).forEach(cell => {
+                        table += `<td>${escapeHtml(String(cell))}</td>`;
+                    });
+                } else {
+                    table += `<td>${escapeHtml(String(row))}</td>`;
+                }
                 table += '</tr>';
             });
             table += '</table>';
             return table;
         } catch (e) {
-            return `<p>Could not parse data:</p><pre>${data}</pre>`;
+            return `<p>Could not render rows.</p><pre>${e.message}</pre>`;
         }
+    }
+
+    function escapeHtml(unsafe) {
+        return unsafe
+            .replaceAll(/&/g, "&amp;")
+            .replaceAll(/</g, "&lt;")
+            .replaceAll(/>/g, "&gt;")
+            .replaceAll(/"/g, "&quot;")
+            .replaceAll(/'/g, "&#039;");
     }
 
     sendBtn.addEventListener('click', handleSend);
@@ -86,4 +98,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-

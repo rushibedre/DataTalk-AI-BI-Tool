@@ -1,3 +1,4 @@
+# backend/database.py
 import sqlite3
 import os
 
@@ -38,7 +39,7 @@ def create_database():
         ('Monitor', 'Electronics', 'North', '2025-08-21', 20, 300.00, 6000.00)
     ]
 
-    # Insert data into the table
+    # Insert data
     cursor.executemany('''
     INSERT INTO sales (product_name, category, region, sale_date, quantity, unit_price, total_price)
     VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -46,6 +47,7 @@ def create_database():
 
     conn.commit()
     conn.close()
+
     print(f"Database '{DB_FILE}' created successfully with sample data.")
 
 if __name__ == "__main__":
